@@ -6,16 +6,9 @@ import { TodoContext } from "../provider/TodoProvider";
 const UpdateTask = () => {
   const { id } = useParams();
   const { todos, setTodos } = useContext(TodoContext);
-  //   const [todos, setTodos] = useState([]);
-
-  //   useEffect(() => {
-  //     const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-  //     setTodos(storedTodos);
-  //   }, []);
 
   // Find the main todo
   const mainTodo = todos.find((item) => item.id == id);
-  console.log(mainTodo);
 
   const {
     register,
@@ -32,7 +25,6 @@ const UpdateTask = () => {
     const todoIndex = existingTasks.findIndex(
       (todo) => todo.id === mainTodo.id
     );
-    console.log(todoIndex);
 
     if (todoIndex !== -1) {
       // If the todo exists, update it
@@ -61,7 +53,7 @@ const UpdateTask = () => {
   };
 
   return (
-    <div className="p-3 pl-5">
+    <div className="p-3 pl-5 h-[343px]">
       <div>
         <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-5">
           {/* Title input */}

@@ -5,9 +5,20 @@ import { FiFilter } from "react-icons/fi";
 import { TodoContext } from "../../provider/TodoProvider";
 const Menu = () => {
   const location = useLocation();
-  const { todos } = useContext(TodoContext);
+  const { todos, setTodos } = useContext(TodoContext);
 
   const completeTodos = todos?.filter((item) => item.completed !== false);
+
+  const handleFilter = () => {
+    // Sort todos by priority
+    const sortedTodos = todos.sort((a, b) => {
+      const priorityValues = { high: 3, medium: 2, low: 1 };
+      const priorityA = priorityValues[a.priority];
+      const priorityB = priorityValues[b.priority];
+      return priorityB - priorityA;
+    });
+    setTodos([...sortedTodos]);
+  };
 
   return (
     <div className="border-b flex items-center justify-between pr-3">
@@ -26,7 +37,7 @@ const Menu = () => {
       <div className="flex space-x-10 items-center">
         {/* Filter option */}
         <div className="" title="Priority filter">
-          <div className="cursor-pointer">
+          <div className="cursor-pointer " onClick={handleFilter}>
             <FiFilter />
           </div>
         </div>

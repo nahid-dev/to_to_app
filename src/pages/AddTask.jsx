@@ -29,7 +29,7 @@ const AddTask = () => {
     setTodos([...updateTaskList]);
   };
   return (
-    <div className="p-3 pl-5">
+    <div className="p-3 pl-5 h-[343px]">
       <div>
         <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-5">
           {/* Title input */}
