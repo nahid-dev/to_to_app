@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import { TodoContext } from "../provider/TodoProvider";
 
 const UpdateTask = () => {
   const { id } = useParams();
-  const [todos, setTodos] = useState([]);
+  const { todos, setTodos } = useContext(TodoContext);
+  //   const [todos, setTodos] = useState([]);
 
-  useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-    setTodos(storedTodos);
-  }, []);
+  //   useEffect(() => {
+  //     const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+  //     setTodos(storedTodos);
+  //   }, []);
 
   // Find the main todo
   const mainTodo = todos.find((item) => item.id == id);
@@ -55,6 +57,7 @@ const UpdateTask = () => {
 
     // Update local storage with the updated todo list
     localStorage.setItem("todos", JSON.stringify(existingTasks));
+    setTodos([...existingTasks]);
   };
 
   return (

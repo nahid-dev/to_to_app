@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RiFileEditLine } from "react-icons/ri";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa";
@@ -7,12 +7,33 @@ import { TodoContext } from "../provider/TodoProvider";
 
 const Home = () => {
   const { todos, setTodos } = useContext(TodoContext);
+  const [checkedTodos, setCheckedTodos] = useState({});
+
   // Delete a todo function here
   const deleteTodo = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
     alert("deleted todo");
+  };
+
+  // Function to handle checkbox change
+  const handleCheckboxChange = (id, e) => {
+    const isChecked = e.target.checked;
+    setCheckedTodos((prevState) => ({
+      ...prevState,
+      [id]: isChecked,
+    }));
+
+    const todoIndex = todos.findIndex((todo) => todo.id === id);
+
+    // make the checkbox toggle here
+    todos[todoIndex] = {
+      ...todos[todoIndex],
+      completed: !todos[todoIndex].completed,
+    };
+    setTodos([...todos]);
+    localStorage.setItem("todos", JSON.stringify(todos));
   };
 
   return (
@@ -30,11 +51,26 @@ const Home = () => {
                   : "border-emerald-500"
               }  flex`}
             >
-              <input type="checkbox" className="mx-2 w-5" />
+              {/* Checkbox for complete task */}
+              <input
+                checked={todo.completed}
+                onChange={(e) => handleCheckboxChange(todo.id, e)}
+                type="checkbox"
+                className="mx-2 w-5"
+              />
+
               <div className=" w-full flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-medium">{todo.title}</h2>
-                  <p>{todo.desc}</p>
+                  <h2
+                    className={`text-xl font-medium ${
+                      todo.completed ? "line-through" : ""
+                    }`}
+                  >
+                    {todo.title}
+                  </h2>
+                  <p className={`${todo.completed ? "line-through" : ""}`}>
+                    {todo.desc}
+                  </p>
                 </div>
                 <div>
                   <div className="flex items-center space-x-5">

@@ -31,7 +31,7 @@ const Menu = () => {
           </div>
         </div>
 
-        {/* Total task and incomplete task list area here */}
+        {/* Total task and complete task list area here */}
         <div className="font-medium flex space-x-5">
           <div>
             <p>
