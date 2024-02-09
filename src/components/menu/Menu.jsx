@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { FiFilter } from "react-icons/fi";
 const Menu = () => {
   const location = useLocation();
+  const [todos, setTodos] = useState([]);
+
+  // Load all todos here
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+    setTodos(storedTodos);
+  }, []);
+
+  const incompleteTodos = todos?.filter((item) => item.completed == false);
+
   return (
     <div className="border-b flex items-center justify-between pr-3">
       {/* App title */}
@@ -32,7 +42,7 @@ const Menu = () => {
             <p>
               Total task:{" "}
               <span className="bg-gray-400 text-white px-1  text-sm rounded-sm">
-                0
+                {todos.length}
               </span>
             </p>
           </div>
@@ -40,7 +50,7 @@ const Menu = () => {
             <p>
               Incomplete task:{" "}
               <span className="bg-emerald-500 text-white px-1 text-sm rounded-sm">
-                0
+                {incompleteTodos.length}
               </span>
             </p>
           </div>
