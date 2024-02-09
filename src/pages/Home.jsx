@@ -7,10 +7,20 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [todos, setTodos] = useState([]);
 
+  // Load all todos here
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
     setTodos(storedTodos);
   }, []);
+
+  // Delete a todo function here
+  const deleteTodo = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    // alert("deleted todo");
+  };
+
   return (
     <div className="!relative h-[343px] overflow-y-auto">
       {/* All task list here */}
@@ -48,6 +58,7 @@ const Home = () => {
                     {/* Delete task icon */}
                     <div>
                       <AiTwotoneDelete
+                        onClick={() => deleteTodo(todo.id)}
                         size={24}
                         className="text-red-500 cursor-pointer"
                       />
