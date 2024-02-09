@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { FiFilter } from "react-icons/fi";
+import { TodoContext } from "../../provider/TodoProvider";
 const Menu = () => {
   const location = useLocation();
-  const [todos, setTodos] = useState([]);
+  const { todos } = useContext(TodoContext);
 
-  // Load all todos here
-  useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-    setTodos(storedTodos);
-  }, []);
-
-  const incompleteTodos = todos?.filter((item) => item.completed == false);
+  const completeTodos = todos?.filter((item) => item.completed !== false);
 
   return (
     <div className="border-b flex items-center justify-between pr-3">
@@ -48,9 +43,9 @@ const Menu = () => {
           </div>
           <div>
             <p>
-              Incomplete task:{" "}
+              Complete task:{" "}
               <span className="bg-emerald-500 text-white px-1 text-sm rounded-sm">
-                {incompleteTodos.length}
+                {completeTodos.length}
               </span>
             </p>
           </div>

@@ -103,10 +103,11 @@ const UpdateTask = () => {
             <select
               id=""
               className="focus-visible:outline-none border"
-              value={mainTodo?.priority}
               {...register("priority", { required: true })}
             >
-              <option value="high">High</option>
+              <option selected value="high">
+                High
+              </option>
               <option value="medium">Medium</option>
               <option value="low">Low</option>
             </select>

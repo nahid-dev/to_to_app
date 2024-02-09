@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { TodoContext } from "../provider/TodoProvider";
 
 const AddTask = () => {
+  const { setTodos } = useContext(TodoContext);
   const {
     register,
     handleSubmit,
@@ -10,8 +12,6 @@ const AddTask = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-
     // Save the todo task in Local storage
     const existingTask = JSON.parse(localStorage.getItem("todos")) || [];
     const updateTaskList = [
@@ -26,6 +26,7 @@ const AddTask = () => {
     ];
     localStorage.setItem("todos", JSON.stringify(updateTaskList));
     reset();
+    setTodos([...updateTaskList]);
   };
   return (
     <div className="p-3 pl-5">
@@ -71,10 +72,11 @@ const AddTask = () => {
             <select
               id=""
               className="focus-visible:outline-none border"
-              value={"low"}
               {...register("priority", { required: true })}
             >
-              <option value="high">High</option>
+              <option selected value="high">
+                High
+              </option>
               <option value="medium">Medium</option>
               <option value="low">Low</option>
             </select>

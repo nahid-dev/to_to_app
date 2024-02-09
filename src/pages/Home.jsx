@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { RiFileEditLine } from "react-icons/ri";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { TodoContext } from "../provider/TodoProvider";
 
 const Home = () => {
-  const [todos, setTodos] = useState([]);
-
-  // Load all todos here
-  useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-    setTodos(storedTodos);
-  }, []);
-
+  const { todos, setTodos } = useContext(TodoContext);
   // Delete a todo function here
   const deleteTodo = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-    // alert("deleted todo");
+    alert("deleted todo");
   };
 
   return (
