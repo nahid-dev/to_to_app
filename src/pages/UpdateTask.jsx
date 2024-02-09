@@ -1,32 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
-const AddTask = () => {
+const UpdateTask = () => {
+  const { id } = useParams();
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+    setTodos(storedTodos);
+  }, []);
+
+  // Find the main todo
+  const mainTodo = todos.find((item) => item.id == id);
+  console.log(mainTodo);
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
+  // Main submit function here
   const onSubmit = (data) => {
-    console.log(data);
+    // Update the todo task in Local storage
+    const existingTasks = JSON.parse(localStorage.getItem("todos")) || [];
 
-    // Save the todo task in Local storage
-    const existingTask = JSON.parse(localStorage.getItem("todos")) || [];
-    const updateTaskList = [
-      ...existingTask,
-      {
-        id: new Date().getTime(),
+    // Check if the todo already exists in local storage based on its ID
+    const todoIndex = existingTasks.findIndex(
+      (todo) => todo.id === mainTodo.id
+    );
+    console.log(todoIndex);
+
+    if (todoIndex !== -1) {
+      // If the todo exists, update it
+      existingTasks[todoIndex] = {
+        ...existingTasks[todoIndex],
+        title: data.title,
+        desc: data.description,
+        priority: data.priority,
+      };
+      alert("todo updated");
+    } else {
+      // If the todo doesn't exist, add it
+      existingTasks.push({
+        id: new Date().getTime(), // Generate a new ID if it's a new todo
         title: data.title,
         desc: data.description,
         priority: data.priority,
         completed: false,
-      },
-    ];
-    localStorage.setItem("todos", JSON.stringify(updateTaskList));
-    reset();
+      });
+      alert("add new one");
+    }
+
+    // Update local storage with the updated todo list
+    localStorage.setItem("todos", JSON.stringify(existingTasks));
   };
+
   return (
     <div className="p-3 pl-5">
       <div>
@@ -39,6 +69,7 @@ const AddTask = () => {
             <input
               type="text"
               placeholder="Input title"
+              defaultValue={mainTodo?.title}
               className=" border-b focus-visible:outline-none"
               {...register("title", { required: true })}
             />
@@ -56,6 +87,7 @@ const AddTask = () => {
               type="text"
               placeholder="Input description"
               className=" border-b focus-visible:outline-none"
+              defaultValue={mainTodo?.desc}
               {...register("description", { required: true })}
             />
             {errors.description && (
@@ -71,7 +103,7 @@ const AddTask = () => {
             <select
               id=""
               className="focus-visible:outline-none border"
-              value={"low"}
+              value={mainTodo?.priority}
               {...register("priority", { required: true })}
             >
               <option value="high">High</option>
@@ -86,10 +118,10 @@ const AddTask = () => {
           {/* submit button */}
           <div className=" text-right mr-5">
             <button
-              className="font-medium bg-emerald-500 px-3 py-1 rounded-sm text-white"
+              className="font-medium bg-orange-500 px-3 py-1 rounded-sm text-white"
               type="submit"
             >
-              Add
+              Update
             </button>
           </div>
         </form>
@@ -98,4 +130,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default UpdateTask;

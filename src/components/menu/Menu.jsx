@@ -1,15 +1,16 @@
 import React from "react";
-import { LuListTodo } from "react-icons/lu";
-import { FaFilter } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
+import { FiFilter } from "react-icons/fi";
 const Menu = () => {
   const location = useLocation();
   return (
     <div className="border-b flex items-center justify-between pr-3">
       {/* App title */}
       <div className="text-2xl flex items-center m-3 ">
-        <LuListTodo className="mr-2" />
+        <Link to="/">
+          <IoMdArrowBack />
+        </Link>
         {location.pathname == "/addTask" ? (
           <span>Add Task</span>
         ) : (
@@ -21,7 +22,7 @@ const Menu = () => {
         {/* Filter option */}
         <div className="" title="Priority filter">
           <div className="cursor-pointer">
-            <FaFilter />
+            <FiFilter />
           </div>
         </div>
 

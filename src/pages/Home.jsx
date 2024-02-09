@@ -6,46 +6,45 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
-  let borderColor;
-  console.log(borderColor);
-  todos?.map((item) => {
-    if (item.priority === "high") {
-      borderColor = "border-red-500";
-    } else if (item.priority === "medium") {
-      borderColor = "border-yellow-500";
-    } else {
-      borderColor = "border-emerald-500";
-    }
-  });
 
   useEffect(() => {
-    // Retrieve todos from localStorage when the component mounts
     const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
     setTodos(storedTodos);
   }, []);
   return (
-    <div className="!relative h-[343px]">
+    <div className="!relative h-[343px] overflow-y-auto">
       {/* All task list here */}
-      <div>
+      <div className="">
         {todos?.map((todo) => (
           <div key={todo.id} className="border-b p-3">
-            <div className={`border-l-4 ${borderColor}  flex`}>
+            <div
+              className={`border-l-4 ${
+                todo.priority === "high"
+                  ? "border-red-500"
+                  : todo.priority === "medium"
+                  ? "border-yellow-500"
+                  : "border-emerald-500"
+              }  flex`}
+            >
               <input type="checkbox" className="mx-2 w-5" />
               <div className=" w-full flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-medium">Title-1</h2>
-                  <p>Lorem ipsum dolor sit amet.</p>
+                  <h2 className="text-xl font-medium">{todo.title}</h2>
+                  <p>{todo.desc}</p>
                 </div>
                 <div>
                   <div className="flex items-center space-x-5">
                     {/* Update Icon */}
                     <div>
-                      <RiFileEditLine
-                        title="Edit task"
-                        className="cursor-pointer"
-                        size={24}
-                      />
+                      <Link to={`/updateTodo/${todo.id}`}>
+                        <RiFileEditLine
+                          title="Edit task"
+                          className="cursor-pointer"
+                          size={24}
+                        />
+                      </Link>
                     </div>
+
                     {/* Delete task icon */}
                     <div>
                       <AiTwotoneDelete

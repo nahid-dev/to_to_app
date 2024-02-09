@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import AddTask from "../pages/AddTask";
+import UpdateTask from "../pages/UpdateTask";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/addTask",
         element: <AddTask></AddTask>,
+      },
+      {
+        path: "/updateTodo/:id",
+        element: <UpdateTask></UpdateTask>,
       },
     ],
   },
