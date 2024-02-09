@@ -104,7 +104,7 @@ const Home = () => {
       </div>
 
       {/* Add task button here */}
-      <div className="absolute bottom-0 right-0 z-50 m-4  inline-block">
+      <div className="absolute bottom-4 right-4 z-50 m-4  inline-block">
         <Link to="/addTask">
           <button
             className="bg-emerald-500 text-white p-4 rounded-full shadow-xl overflow-visible"
