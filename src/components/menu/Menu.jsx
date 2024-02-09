@@ -1,14 +1,20 @@
 import React from "react";
 import { LuListTodo } from "react-icons/lu";
 import { FaFilter } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
-const Menu = ({ title }) => {
+const Menu = () => {
+  const location = useLocation();
   return (
     <div className="border-b flex items-center justify-between pr-3">
       {/* App title */}
       <div className="text-2xl flex items-center m-3 ">
         <LuListTodo className="mr-2" />
-        <span>{title}</span>
+        {location.pathname == "/addTask" ? (
+          <span>Add Task</span>
+        ) : (
+          <span>Task List</span>
+        )}
       </div>
 
       <div className="flex space-x-10 items-center">
